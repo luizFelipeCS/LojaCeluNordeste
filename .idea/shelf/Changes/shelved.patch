@@ -1,0 +1,387 @@
+Index: src/Modelo/Produto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Modelo/Produto.java b/src/Modelo/Produto.java
+new file mode 100644
+--- /dev/null	(date 1702625966507)
++++ b/src/Modelo/Produto.java	(date 1702625966507)
+@@ -0,0 +1,45 @@
++package Modelo;
++
++import Utils.Utls;
++
++public class Produto {
++    private static int count = 1;
++    private int id;
++    private  String name;
++    private Double preco;
++
++    public Produto(String name, Double preco){
++        this.id = count;
++        this.name = name;
++        this.preco = preco;
++        Produto.count += 1;
++    }
++
++    public int getId() {
++        return id;
++    }
++
++    public String getName() {
++        return name;
++    }
++
++    public void setName(String name) {
++        this.name = name;
++    }
++
++    public Double getPreco() {
++        return preco;
++    }
++
++    public void setPreco(Double preco) {
++        this.preco = preco;
++    }
++
++    public String toString(){
++        return "Id: " + this.getId() +
++                "\n Nome: " + this.getName() +
++                "\n Preço: " + Utls.doubleToString(this.getPreco());
++
++
++    }
++}
+Index: src/Utils/Utls.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Utils/Utls.java b/src/Utils/Utls.java
+new file mode 100644
+--- /dev/null	(date 1702624300905)
++++ b/src/Utils/Utls.java	(date 1702624300905)
+@@ -0,0 +1,14 @@
++package Utils;
++
++import java.text.DecimalFormat;
++import java.text.DecimalFormatSymbols;
++import java.text.NumberFormat;
++import java.util.Locale;
++
++public class Utls {
++    static NumberFormat numberFormat =
++            new DecimalFormat("R$ #,##0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
++    public static String doubleToString(Double value){
++        return numberFormat.format(value);
++    }
++}
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	(date 1702884173272)
++++ b/.idea/vcs.xml	(date 1702884173272)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+new file mode 100644
+--- /dev/null	(date 1702614646702)
++++ b/.idea/.gitignore	(date 1702614646702)
+@@ -0,0 +1,3 @@
++# Default ignored files
++/shelf/
++/workspace.xml
+Index: LojaCeluNordeste.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/LojaCeluNordeste.iml b/LojaCeluNordeste.iml
+new file mode 100644
+--- /dev/null	(date 1702614642691)
++++ b/LojaCeluNordeste.iml	(date 1702614642691)
+@@ -0,0 +1,11 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="JAVA_MODULE" version="4">
++  <component name="NewModuleRootManager" inherit-compiler-output="true">
++    <exclude-output />
++    <content url="file://$MODULE_DIR$">
++      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
++    </content>
++    <orderEntry type="inheritedJdk" />
++    <orderEntry type="sourceFolder" forTests="false" />
++  </component>
++</module>
+\ No newline at end of file
+Index: src/Main/Loja.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Main/Loja.java b/src/Main/Loja.java
+new file mode 100644
+--- /dev/null	(date 1702883301281)
++++ b/src/Main/Loja.java	(date 1702883301281)
+@@ -0,0 +1,169 @@
++package Main;
++
++import Modelo.Produto;
++import Utils.Utls;
++
++
++import java.util.ArrayList;
++import java.util.HashMap;
++import java.util.Map;
++import java.util.Scanner;
++
++public class Loja {
++    private static Scanner input = new Scanner(System.in);
++
++    private static Map<Produto, Integer> carrinho;
++    private static ArrayList<Produto> Produto;
++
++    public static void main(String[] args) {
++         Produto = new ArrayList<>();
++        carrinho = new HashMap<>();
++        menu();
++    }
++
++    private static void menu(){
++        System.out.println("--------------------------------------------------------");
++        System.out.println("--------------Seja bem vindo ao CeluNordeste---------------");
++        System.out.println("-------------------------------------------------------------");
++        System.out.println("************Selecione uma opereação que deseja reaçizar***********");
++        System.out.println("|  opção 1 - Cadastrar |");
++        System.out.println("|  opção 2 - Listar    |");
++        System.out.println("|  opção 3 - Comprar   |");
++        System.out.println("|  opção 4 - Carrinho  |");
++        System.out.println("|  opção 5 - sair      |");
++
++        int option = input.nextInt();
++
++        switch (option){
++            case 1:
++                cadastrarProdutos();
++                break;
++
++            case 2:
++                listarProdutos();
++                break;
++            case 3:
++                comprarProdutos();
++                break;
++            case 4:
++                verCarrinho();
++                break;
++            case 5:
++                System.out.println("Obrigado pela escolha");
++                System.exit(0);
++
++            default:
++                System.out.println("Opção Ivalida!");
++                menu();
++                break;
++
++        }
++        
++    }
++
++    private static void cadastrarProdutos() {
++
++
++        System.out.println("nome do produto: ");
++        String nome = input.next();
++
++        System.out.println("nome do produto: ");
++        Double preco = input.nextDouble();
++
++        Produto produto = new Produto(nome, preco);
++        Produto.add(produto);
++
++        System.out.println(produto.getName() + " cadastrado com sucesso!");
++        menu();
++
++
++    }
++
++    private static void listarProdutos(){
++        if (Produto.size() > 0){
++            System.out.println("Lista de produtos! \n");
++
++            for (Produto capa: Produto){
++                System.out.println(capa);
++            }
++        }else {
++            System.out.println("Nenhum produto cadastrado!");
++        }
++        menu();
++    }
++
++    private static void comprarProdutos(){
++        if (Produto.size() > 0 ){
++            System.out.println(" codigo do produto: \n");
++
++            System.out.println("-----------------------Produto Disponiveis-----------------------");
++            for (Produto capa : Produto){
++                System.out.println(capa + "\n");
++            }
++            int id = Integer.parseInt(input.next());
++            boolean isPresent = false;
++
++            for (Produto capa : Produto){
++                if (capa.getId() == id){
++                    int qtd = 0;
++                    try {
++                        qtd = carrinho.get(capa);
++                        carrinho.put(capa, qtd +1);
++
++                    }catch (NullPointerException e){
++                        carrinho.put(capa, 1);
++                    }
++                    System.out.println( capa.getName() + " adicionado ao carrinho.");
++                    isPresent = true;
++
++                  if (isPresent){
++                        System.out.println("Deseja adicionar outro Produto ao carrinho?");
++                        System.out.println("Digite 1 para sim, ou 0 para finalisar a compra. \n");
++                        int option = Integer.parseInt( input.next());
++
++                        if (option == 1){
++                            comprarProdutos();
++                        }else{
++                        finalizarCompra();
++                    }
++                }
++            }else {
++                    System.out.println("Produto não encontrado.");
++                    menu();
++                }
++            }
++        }else {
++            System.out.println("Não existem produtos cadastrados!");
++            menu();
++        }
++    }
++
++    private static void verCarrinho(){
++        System.out.println("----------Produtos no seu carrinho!---------");
++        if (carrinho.size() > 0){
++            for( Produto capa: carrinho.keySet()){
++                System.out.println("Produto: " + capa +" \nQuantidade: " + carrinho.get(capa));
++            }
++        }else {
++            System.out.println("Carrinho vazio!");
++        }
++        menu();
++    }
++
++    private static void finalizarCompra(){
++        double valorDaCompra = 0.0;
++        System.out.println("Seus produto!");
++
++        for (Produto capa: carrinho.keySet()){
++            int qtd = carrinho.get(capa);
++            valorDaCompra += capa.getPreco() * qtd;
++            System.out.println(capa);
++            System.out.println("Quantidade: " + qtd);
++            System.out.println("------------------------------------");
++        }
++        System.out.println(" O valor da sua compra é: " + Utls.doubleToString(valorDaCompra));
++        carrinho.clear();
++        System.out.println(" Obrigado pela preferência!");
++        menu();
++    }
++}
+\ No newline at end of file
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+--- /dev/null	(date 1702614636058)
++++ b/.gitignore	(date 1702614636058)
+@@ -0,0 +1,29 @@
++### IntelliJ IDEA ###
++out/
++!**/src/main/**/out/
++!**/src/test/**/out/
++
++### Eclipse ###
++.apt_generated
++.classpath
++.factorypath
++.project
++.settings
++.springBeans
++.sts4-cache
++bin/
++!**/src/main/**/bin/
++!**/src/test/**/bin/
++
++### NetBeans ###
++/nbproject/private/
++/nbbuild/
++/dist/
++/nbdist/
++/.nb-gradle/
++
++### VS Code ###
++.vscode/
++
++### Mac OS ###
++.DS_Store
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+new file mode 100644
+--- /dev/null	(date 1702614642747)
++++ b/.idea/misc.xml	(date 1702614642747)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
++    <output url="file://$PROJECT_DIR$/out" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+new file mode 100644
+--- /dev/null	(date 1702614642713)
++++ b/.idea/modules.xml	(date 1702614642713)
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectModuleManager">
++    <modules>
++      <module fileurl="file://$PROJECT_DIR$/LojaCeluNordeste.iml" filepath="$PROJECT_DIR$/LojaCeluNordeste.iml" />
++    </modules>
++  </component>
++</project>
+\ No newline at end of file
